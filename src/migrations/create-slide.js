@@ -2,7 +2,7 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('slides', {
-      idS: {
+      id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
