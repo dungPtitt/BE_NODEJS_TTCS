@@ -2,6 +2,7 @@ import configViewEngine from "./config/viewEngines";
 import checkConnectDB from "./config/checkConnectDB";
 import express from "express";
 import initWebRoute from './router/web';
+import initApiRoute from "./router/api";
 // import initAPIRoute from './router/api';
 require('dotenv').config()
 const app = express()
@@ -15,7 +16,8 @@ configViewEngine(app)
 //init web route
 initWebRoute(app)
 //init api route
-// initAPIRoute(app)
+initApiRoute(app)
+
 checkConnectDB();
 
 
