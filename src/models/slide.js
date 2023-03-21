@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     imageS: DataTypes.BLOB,
     content: DataTypes.STRING,
     timeUpdate: DataTypes.DATE,
-    idP: DataTypes.STRING
+    idP: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Slide',

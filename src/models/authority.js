@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Authority.hasMany(models.Account, {foreignKey: "idAuth"});
     }
   };
   Authority.init({

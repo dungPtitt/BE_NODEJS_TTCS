@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
+      Account.belongsTo(models.Authority, {foreignKey: "idAuth"});
       // define association here
     }
   };
