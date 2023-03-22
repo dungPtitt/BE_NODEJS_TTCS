@@ -2,6 +2,16 @@ import db from "../models/index";
 import bcrypt from 'bcryptjs';
 let salt = bcrypt.genSaltSync(10);
 
+let handleLogin = (data)=>{
+  return new Promise(async(resolve, reject)=>{
+    try{
+      
+    }catch{
+
+    }
+  });
+}
+
 let handleCreateAcc = async (data) => {
   return new Promise(async (resolve, reject) => {
     try {

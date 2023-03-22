@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      ProductGroup.hasMany(models.Product, {foreignKey: "idGroup", as: "DataProductGroup"});
     }
   };
   ProductGroup.init({

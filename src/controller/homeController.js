@@ -10,6 +10,16 @@ let getHomePage = async(req, res)=>{
   })
 }
 
+let loginPage = (req, res)=>{
+  res.render("login.ejs");
+}
+
+let adminPage = (req, res)=>{
+  return res.render("admin/home.ejs");
+}
+
 module.exports = {
-  getHomePage
+  getHomePage,
+  loginPage,
+  adminPage,
 }

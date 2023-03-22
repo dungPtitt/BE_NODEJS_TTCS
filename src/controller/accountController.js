@@ -1,5 +1,37 @@
 import accountService from "../services/accountService";
 
+let authorityLogin = async(req, res)=>{
+  try{
+    let data = req.body;
+    let response = await accountService.handleUserLogin(data.email, data.password);
+    console.log("data: ", response);
+    if(response.errCode==0){
+      switch (response.idAuth) {
+        case 1:
+          res.redirect("/admin");
+          break;
+        case 2:
+          res.render("manager/home.ejs");
+          break;
+        case 3:
+          res.render("member/home.ejs");
+          break;
+        default:
+          res.render("login.ejs");
+          break;
+      }
+    }else{
+      res.render("login.ejs");
+    }
+  }catch(e){
+    console.log(e);
+    res.status(500).json({
+      errCode: -1,
+      errMessage: "Err from server!"
+    })
+  }
+}
+
 let getViewCRUDAcc = (req, res)=>{
   return res.render("account/crud.ejs");
 }
@@ -71,6 +103,7 @@ let getAllAcc = async (req, res) => {
     }
     
   } catch (e) {
+    console.log(e);
     return res.status(500).json({
       errCode: -1,
       errMessage: "Error from server!"
@@ -143,6 +176,7 @@ let deleteAcc = async (req, res) => {
 module.exports = {
   getViewCRUDAcc,
   //
+  authorityLogin,
   login,
   createAcc,
   getAcc,

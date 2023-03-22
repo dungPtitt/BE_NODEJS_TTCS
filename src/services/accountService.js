@@ -7,6 +7,58 @@ let handleUserLogin = (email, password) => {
     try {
       let isExist = await checkEmail(email);
       // neu ton tai email thi check password
+      if(!isExist){
+        resolve({
+          errCode: 1,
+          errMessage: "Your email not exit. Please try again!"
+        })
+      }
+      let acc = await db.Account.findOne({
+        where: { emailAcc: email },
+        attributes: ['emailAcc', 'passwordAcc', 'idAuth'],
+        raw: true
+      })
+      if(!acc){
+        resolve({
+          errCode: 1,
+          errMessage: "Account not exist in db!"
+        })
+      }
+      let check = await bcrypt.compare(password, acc.passwordAcc);
+      if(!check){
+        resolve({
+          errCode: 2,
+          errMessage: "Wrong password!"
+        })
+      }
+      let response = {};
+      response.errCode = 0;
+      response.message = "Login successfully!";
+      switch(acc.idAuth) {
+        case 1:
+          response.idAuth = 1;
+          break;
+        case 2:
+          response.idAuth = 2;
+          break;
+        case 3:
+          response.idAuth = 3;
+          break;
+        default:
+          response.idAuth = -1;
+      }
+      resolve(response);
+    } catch (e) {
+      reject(e)
+    }
+  })
+}
+
+let handleAuthorityLogin = (email, password) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let isExist = await checkEmail(email);
+      // neu ton tai email thi check password
       let dataUser = {}
       if(!isExist){
         dataUser.errCode = 1,
@@ -45,17 +97,17 @@ let handleUserLogin = (email, password) => {
 
 let checkEmail = (userEmail) => {
   return new Promise(async (resolve, reject) => {
-    try {
+    try{
       let user = await db.Account.findOne({
         where: { emailAcc: userEmail }
       })
-      if (user) {
+      if(user) {
         resolve(true)
       }
       else {
         resolve(false)
       }
-    } catch (e) {
+    }catch(e) {
       reject(e)
     }
   })
@@ -103,10 +155,24 @@ let handleGetAcc = (id) => {
         let idAcc = parseInt(id);
         users = await db.Account.findOne({
           where: { id: idAcc },
+          include: [
+            {
+              model: db.Authority,
+              as: "AuthData",
+              attributes: ["nameAuth"]
+            },
+            {
+              model: db.Bill,
+              as: "DataAcc"
+            }
+          ],
+          raw: true,
+          nest: true
         })
       }
       resolve(users)
     } catch (err) {
+      console.log(err);
       reject(err)
     }
   })
