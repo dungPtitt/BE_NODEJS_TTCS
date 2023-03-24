@@ -5,7 +5,7 @@ let router = express.Router()
 
 const initWebRoute = (app)=> {
   router.get("/", homeController.loginPage);
-  router.post("/login", accountController.authorityLogin);
+  router.post("/login", homeController.loginPage);
   router.get("/admin", homeController.adminPage);
   router.get("/crud-acc", accountController.getViewCRUDAcc);
   router.post("/create-acc", accountController.createAcc);
